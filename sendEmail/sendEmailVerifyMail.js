@@ -18,7 +18,7 @@ export const sendMail = async (token, name, email) => {
     <h3>Hi, ${name}</h3>
     <h1>Verify Your Email</h1>
     <br />
-    <button><a href="http://localhost:5173/verify/${token}">Verify</a></button>
+    <button><a href="https://mern-authentication-lemon.vercel.app/verify/${token}">Verify</a></button>
     `,
   };
 
