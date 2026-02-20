@@ -3,15 +3,16 @@ import "dotenv/config";
 
 export const sendMail = async (token, name, email) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp-relay.brevo.com",
+    port: 587,
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
   });
 
   const mailConfiguration = {
-    from: process.env.MAIL_USER,
+    from: process.env.SENDER_EMAIL,
     to: email,
     subject: "Email Verification",
     html: `
