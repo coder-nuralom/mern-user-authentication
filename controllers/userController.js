@@ -56,6 +56,50 @@ export const register = async (req, res) => {
   }
 };
 
+export const resendVerificationEmail = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      success: false,
+      message: "Email is required.",
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // jwt token create
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "10m",
+    });
+
+    // send email
+    await sendMail(token, user.name, user.email);
+
+    // Save token in db
+    user.token = token;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Verification email resent successfully.",
+    });
+  } catch (error) {
+    console.error("Resend Email Error:-", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong. Try again later.",
+    });
+  }
+};
+
 export const verifyEmail = async (req, res) => {
   try {
     const authHeader = req.header("Authorization");

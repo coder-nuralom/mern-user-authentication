@@ -6,6 +6,7 @@ import {
   logout,
   register,
   resendOtp,
+  resendVerificationEmail,
   verifyEmail,
   verifyOtp,
 } from "../controllers/userController.js";
@@ -16,6 +17,10 @@ const router = express.Router();
 // api method: POST
 // api endpoit: /user/register
 router.post("/register", register);
+
+// api method: POST
+// api endpoit: /user/register
+router.post("/resend-verification-email", resendVerificationEmail);
 
 //api method: POST
 // api endpoint : /user/verify
